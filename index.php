@@ -424,6 +424,7 @@ try {
             <li><a href="index.php" class="header-link">Accueil</a></li>
             <li><a href="restaurants.php" class="header-link">Restaurants</a></li>
             <li><a href="contact.php" class="header-link">Contact</a></li>
+            <li><a href="avis.php" class="header-link">Avis</a></li>
         </ul>
     </nav>
     
