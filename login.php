@@ -27,7 +27,7 @@ if (isset($_POST['login'])) {
     $email = htmlspecialchars($_POST['email']);
     $password = $_POST['password'];
 
-    $stmt = $pdo->prepare("SELECT id, password FROM users WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT id, nom FROM mail WHERE mail = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
