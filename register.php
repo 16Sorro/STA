@@ -25,12 +25,12 @@ if (isset($_POST['register'])) {
     $email = htmlspecialchars($_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT id FROM clients WHERE mail = ?");
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
         $message = "❌ Cet email est déjà utilisé.";
     } else {
-        $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO users (mail, nom) VALUES (?, ?)");
         $stmt->execute([$email, $password]);
         $message = "✅ Inscription réussie. <a href='login.php'>Connectez-vous ici</a>";
     }
