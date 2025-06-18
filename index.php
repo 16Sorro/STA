@@ -1,24 +1,7 @@
 <?php
-// Connexion à la base de données MySQL
-$host = '10.96.16.82';
-$db   = 'tripadvisor';
-$user = 'colin';
-$pass = '';
-$charset = 'utf8mb4';
+session_start();
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    echo "Erreur de connexion à la base de données : " . $e->getMessage();
-    exit;
-}
+include_once('connectbase.php');
 
 // Récupération des restaurants les mieux notés (coups de cœur)
 try {
@@ -405,6 +388,8 @@ try {
     </style>
 </head>
 <body>
+    <body>
+  
     <header>
         <a href="index.php" class="logo">RestAdvisor</a>
         <div class="header-right">
