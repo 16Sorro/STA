@@ -28,34 +28,18 @@ $offset = ($page - 1) * $limite;
 
 $resultats = [];
 $total_resultats = 0;
-
+echo $recherche;
 if (!empty($recherche)) {
     try {
         // Requête de recherche adaptée à votre vraie structure de base de données
         $sql_search = "
-            SELECT DISTINCT r.id_restaurant as id, 
-                   r.nom,
-                   GROUP_CONCAT(DISTINCT t.intitule SEPARATOR ', ') as type_cuisine,
-                   o.nom as origine,
-                   o.nationalite,
-                   COALESCE(AVG(a.note), 0) as note_moyenne,
-                   COUNT(DISTINCT a.id) as nombre_avis,
-                   '' as adresse,
-                   '' as description
-            FROM restaurants r 
-            LEFT JOIN types_restaurants tr ON r.id_restaurant = tr.id_restaurant
-            LEFT JOIN types t ON tr.id_type = t.id_type
-            LEFT JOIN origines o ON r.id_origine = o.id_origine
-            LEFT JOIN avis a ON r.id_restaurant = a.restaurant_id 
-            WHERE r.nom LIKE :recherche 
-               OR t.intitule LIKE :recherche 
-               OR o.nom LIKE :recherche
-               OR o.nationalite LIKE :recherche
-               OR o.pays LIKE :recherche
-               OR o.continent LIKE :recherche
-            GROUP BY r.id_restaurant, r.nom, o.nom, o.nationalite
-            ORDER BY note_moyenne DESC, nombre_avis DESC
-            LIMIT :limite OFFSET :offset
+SELECT r.id_restaurant AS id,
+       r.nom
+FROM restaurants r
+WHERE r.nom LIKE :recherche
+ORDER BY r.nom ASC
+LIMIT :limite OFFSET :offset;
+
         ";
         
         $stmt = $pdo->prepare($sql_search);
@@ -66,28 +50,23 @@ if (!empty($recherche)) {
         $stmt->execute();
         $resultats = $stmt->fetchAll();
         
-        // Compter le total pour la pagination
+        // Compter le total pour la pagination (recherche seulement sur restaurant.nom)
         $sql_count = "
-            SELECT COUNT(DISTINCT r.id_restaurant) as total
-            FROM restaurants r 
-            LEFT JOIN types_restaurants tr ON r.id_restaurant = tr.id_restaurant
-            LEFT JOIN types t ON tr.id_type = t.id_type
-            LEFT JOIN origines o ON r.id_origine = o.id_origine
-            WHERE r.nom LIKE :recherche 
-               OR t.intitule LIKE :recherche 
-               OR o.nom LIKE :recherche
-               OR o.nationalite LIKE :recherche
-               OR o.pays LIKE :recherche
-               OR o.continent LIKE :recherche
+            SELECT COUNT(*) as total
+            FROM restaurants r
+            WHERE r.nom LIKE :recherche
         ";
         
         $stmt_count = $pdo->prepare($sql_count);
         $stmt_count->bindParam(':recherche', $terme_recherche, PDO::PARAM_STR);
         $stmt_count->execute();
         $total_resultats = $stmt_count->fetch()['total'];
+
+        
         
     } catch (\PDOException $e) {
         $error_message = "Erreur lors de la recherche : " . $e->getMessage();
+        echo $error_message;
     }
 }
 
@@ -646,35 +625,6 @@ $total_pages = ceil($total_resultats / $limite);
                                     </div>
                                 <?php endif; ?>
                                 <div class="restaurant-meta">
-                                    <div class="rating">
-                                        <div class="stars">
-                                            <?php 
-                                            $note = $restaurant['note_moyenne'] ? round($restaurant['note_moyenne'], 1) : 0;
-                                            $etoiles_pleines = floor($note);
-                                            $etoile_demi = ($note - $etoiles_pleines) >= 0.5 ? 1 : 0;
-                                            $etoiles_vides = 5 - $etoiles_pleines - $etoile_demi;
-                                            
-                                            // Étoiles pleines
-                                            for ($i = 0; $i < $etoiles_pleines; $i++): ?>
-                                                <span class="star">★</span>
-                                            <?php endfor; ?>
-                                            
-                                            <!-- Demi-étoile -->
-                                            <?php if ($etoile_demi): ?>
-                                                <span class="star">★</span>
-                                            <?php endif; ?>
-                                            
-                                            <!-- Étoiles vides -->
-                                            <?php for ($i = 0; $i < $etoiles_vides; $i++): ?>
-                                                <span class="star empty">★</span>
-                                            <?php endfor; ?>
-                                        </div>
-                                        <?php if ($note > 0): ?>
-                                            <span class="rating-value"><?= number_format($note, 1) ?></span>
-                                        <?php else: ?>
-                                            <span class="rating-value">Non noté</span>
-                                        <?php endif; ?>
-                                    </div>
                                     <span class="review-count"><?= $restaurant['nombre_avis'] ?> avis</span>
                                 </div>
                             </div>
