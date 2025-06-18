@@ -213,41 +213,7 @@ foreach ($avis as $ligne) {
     </style>
 </head>
 <body>
-    <?php
-$recherche_resultats = [];
-
-if (isset($_GET['recherche']) && !empty(trim($_GET['recherche']))) {
-    $terme = '%' . trim($_GET['recherche']) . '%';
-    $stmt = $pdo->prepare("SELECT id_restaurant, nom FROM restaurants WHERE nom LIKE ? ORDER BY nom");
-    $stmt->execute([$terme]);
-    $recherche_resultats = $stmt->fetchAll();
-}
-?>
-
-    <!-- Recherche de restaurant -->
-<div class="form-container">
-    <h2>🔎 Rechercher un restaurant</h2>
-    <form method="GET">
-        <input type="text" name="recherche" placeholder="Tapez un nom de restaurant..." value="<?= htmlspecialchars($_GET['recherche'] ?? '') ?>" style="width: 70%; padding: 0.5rem; margin-right: 1rem;">
-        <button type="submit" class="btn">Rechercher</button>
-    </form>
-
-    <?php if (isset($_GET['recherche'])): ?>
-        <?php if (!empty($recherche_resultats)): ?>
-            <ul style="margin-top: 1rem; list-style: none; padding-left: 0;">
-                <?php foreach ($recherche_resultats as $r): ?>
-                    <li>
-                        <a href="#" class="select-restaurant" data-id="<?= $r['id_restaurant'] ?>">
-                            <?= htmlspecialchars($r['nom']) ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <p style="color: red; margin-top: 1rem;">Aucun restaurant trouvé.</p>
-        <?php endif; ?>
-    <?php endif; ?>
-</div>
+    
 
 
 <h1>Avis des clients par restaurant</h1>
@@ -313,19 +279,7 @@ if (isset($_GET['recherche']) && !empty(trim($_GET['recherche']))) {
 <?php endif; ?>
 
 <a href="index.php">← Retour à l'accueil</a>
-    <script>
-document.querySelectorAll('.select-restaurant').forEach(function(el) {
-    el.addEventListener('click', function(e) {
-        e.preventDefault();
-        const id = this.getAttribute('data-id');
-        const select = document.getElementById('restaurant_id');
-        if (select) {
-            select.value = id;
-            window.scrollTo({ top: select.offsetTop - 50, behavior: 'smooth' });
-        }
-    });
-});
-</script>
+    
 
 
 </body>
