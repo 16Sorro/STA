@@ -1,24 +1,8 @@
 <?php
-// Connexion à la base de données MySQL
-$host = '10.96.16.82';
-$db   = 'tripadvisor';
-$user = 'colin';
-$pass = '';
-$charset = 'utf8mb4';
+session_start();
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
+include_once('connectbase.php');
 
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    echo "Erreur de connexion à la base de données : " . $e->getMessage();
-    exit;
-}
 
 // Récupération des restaurants les mieux notés (coups de cœur)
 try {
@@ -405,6 +389,8 @@ try {
     </style>
 </head>
 <body>
+    <body>
+  
     <header>
         <a href="index.php" class="logo">RestAdvisor</a>
         <div class="header-right">
@@ -422,9 +408,10 @@ try {
     <nav id="burger-menu">
         <ul>
             <li><a href="index.php" class="header-link">Accueil</a></li>
-            <li><a href="restaurants.php" class="header-link">Restaurants</a></li>
+            <li><a href="restaurant.php" class="header-link">Restaurants</a></li>
             <li><a href="contact.php" class="header-link">Contact</a></li>
             <li><a href="avis.php" class="header-link">Avis</a></li>
+            <li><a href="employes_par_restaurant.php" class="header-link">Employés par restaurant</a></li>
         </ul>
     </nav>
     
