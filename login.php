@@ -24,14 +24,23 @@ try {
 $message = '';
 
 if (isset($_POST['login'])) {
+<<<<<<< HEAD
     $email = htmlspecialchars($_POST['mail']);
     $password = $_POST['nom'];
+=======
+    $email = htmlspecialchars($_POST['email']);
+    $password = $_POST['password'];
+>>>>>>> 6719a4ad1a835aab6f7718fa6b07b2182aa258d5
 
     $stmt = $pdo->prepare("SELECT id, nom FROM mail WHERE mail = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
+<<<<<<< HEAD
     if ($user && password_verify($password, $user['nom'])) {
+=======
+    if ($user && password_verify($password, $user['password'])) {
+>>>>>>> 6719a4ad1a835aab6f7718fa6b07b2182aa258d5
         $_SESSION['user_id'] = $user['id'];
         header('Location: contact.php');
         exit;
