@@ -407,31 +407,7 @@ try {
 </head>
 <body>
     <body>
-    <h1>Bienvenue sur TripAdvisor</h1>
-
-    <!-- 🔍 Ici tu colles ce code -->
-    <form method="get">
-        <input type="text" name="recherche" placeholder="Rechercher un restaurant" value="<?= htmlspecialchars($_GET['recherche'] ?? '') ?>" required>
-        <button type="submit">Rechercher</button>
-    </form>
-
-    <?php if (isset($_GET['recherche'])): ?>
-        <div class="resultats">
-            <?php if ($results): ?>
-                <ul>
-                    <?php foreach ($results as $r): ?>
-                        <li>
-                            <strong><?= htmlspecialchars($r['nom_restaurant']) ?></strong><br>
-                            <small>Origine : <?= htmlspecialchars($r['origine']) ?></small>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-                <p>Aucun restaurant trouvé pour « <strong><?= htmlspecialchars($_GET['recherche']) ?></strong> ».</p>
-            <?php endif; ?>
-        </div>
-    <?php endif; ?>
-
+  
     <header>
         <a href="index.php" class="logo">RestAdvisor</a>
         <div class="header-right">
