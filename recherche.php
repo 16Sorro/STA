@@ -34,11 +34,15 @@ if (!empty($recherche)) {
         // Requête de recherche adaptée à votre vraie structure de base de données
         $sql_search = "
 SELECT r.id_restaurant AS id,
-       r.nom
+       r.nom,
+       COUNT(a.id_avis) AS nombre_avis
 FROM restaurants r
+LEFT JOIN avis a ON r.id_restaurant = a.id_restaurant
 WHERE r.nom LIKE :recherche
+GROUP BY r.id_restaurant, r.nom
 ORDER BY r.nom ASC
 LIMIT :limite OFFSET :offset;
+
 
         ";
         
