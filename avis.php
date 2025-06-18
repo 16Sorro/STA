@@ -78,6 +78,7 @@ $sql = "
 $stmt = $pdo->query($sql);
 $avis = $stmt->fetchAll();
 
+
 // Organisation des avis par restaurant
 $avis_par_restaurant = [];
 foreach ($avis as $ligne) {
@@ -212,6 +213,8 @@ foreach ($avis as $ligne) {
     </style>
 </head>
 <body>
+    
+
 
 <h1>Avis des clients par restaurant</h1>
 
@@ -258,7 +261,7 @@ foreach ($avis as $ligne) {
     <div class="restaurant">
         <p>Aucun avis n'a encore été publié. Soyez le premier à laisser un avis !</p>
     </div>
-<?php else: ?>
+<?php else: ?> 
     <?php foreach ($avis_par_restaurant as $restaurant => $avis_list): ?>
         <div class="restaurant">
             <h2>🍽️ <?= htmlspecialchars($restaurant) ?></h2>
@@ -276,6 +279,8 @@ foreach ($avis as $ligne) {
 <?php endif; ?>
 
 <a href="index.php">← Retour à l'accueil</a>
+    
+
 
 </body>
 </html>

@@ -3,6 +3,7 @@ session_start();
 
 include_once('connectbase.php');
 
+
 // Récupération des restaurants les mieux notés (coups de cœur)
 try {
     $stmt = $pdo->prepare("
