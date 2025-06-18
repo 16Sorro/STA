@@ -19,6 +19,27 @@ try {
     echo "Erreur de connexion à la base de données : " . $e->getMessage();
     exit;
 }
+<form method="get">
+    <input type="text" name="recherche" placeholder="Rechercher un restaurant" value="<?= htmlspecialchars($_GET['recherche'] ?? '') ?>" required>
+    <button type="submit">Rechercher</button>
+</form>
+
+<?php if (isset($_GET['recherche'])): ?>
+    <div class="resultats">
+        <?php if ($results): ?>
+            <ul>
+                <?php foreach ($results as $r): ?>
+                    <li>
+                        <strong><?= htmlspecialchars($r['nom_restaurant']) ?></strong><br>
+                        <small>Origine : <?= htmlspecialchars($r['origine']) ?></small>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>Aucun restaurant trouvé pour « <strong><?= htmlspecialchars($_GET['recherche']) ?></strong> ».</p>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
 
 // Récupération des restaurants les mieux notés (coups de cœur)
 try {
