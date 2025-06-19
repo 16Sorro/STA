@@ -31,17 +31,17 @@ if (isset($_POST['register'])) {
     $email = htmlspecialchars($_POST['email']);
 
     // Vérifie si l'e-mail est déjà utilisé
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE mail = ?");
+    $stmt = $pdo->prepare("SELECT id FROM clients WHERE mail = ?");
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
         $message = "❌ Cet email est déjà utilisé.";
     } else {
         // Insertion du nouvel utilisateur
-        $stmt = $pdo->prepare("INSERT INTO users (nom, prenom, mail) VALUES (?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO clients (nom, prenom, mail) VALUES (?, ?, ?)");
         $stmt->execute([$nom, $prenom, $email]);
 
         // Récupération de l'utilisateur pour la session
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE mail = ?");
+        $stmt = $pdo->prepare("SELECT * FROM clients WHERE mail = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
