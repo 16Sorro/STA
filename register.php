@@ -31,7 +31,7 @@ if (isset($_POST['register'])) {
     $email = htmlspecialchars($_POST['email']);
 
     // Vérifie si l'e-mail est déjà utilisé
-    $stmt = $pdo->prepare("SELECT id FROM clients WHERE mail = ?");
+    $stmt = $pdo->prepare("SELECT id_client FROM clients WHERE mail = ?");
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
         $message = "❌ Cet email est déjà utilisé.";
