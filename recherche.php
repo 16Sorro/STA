@@ -554,8 +554,11 @@ $total_pages = ceil($total_resultats / $limite);
     <nav id="burger-menu">
         <ul>
             <li><a href="index.php" class="header-link">Accueil</a></li>
-            <li><a href="restaurants.php" class="header-link">Restaurants</a></li>
+            <li><a href="restaurant.php" class="header-link">Restaurants</a></li>
             <li><a href="contact.php" class="header-link">Contact</a></li>
+            <li><a href="avis.php" class="header-link">Avis</a></li>
+            <li><a href="employes_par_restaurant.php" class="header-link">Employés par restaurant</a></li>
+            <li><a href="create_restaurant.php" class="header-link">Créer un restaurant</a></li>
         </ul>
     </nav>
     
