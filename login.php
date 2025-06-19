@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+// Déconnexion si ?logout est présent
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}
+
+// Connexion à la base de données
 $host = '10.96.16.82';
 $db   = 'tripadvisor';
 $user = 'colin';
@@ -23,29 +31,25 @@ try {
 
 $message = '';
 
+// Traitement du formulaire de connexion
 if (isset($_POST['login'])) {
-<<<<<<< HEAD
-    $email = htmlspecialchars($_POST['mail']);
-    $password = $_POST['nom'];
-=======
     $email = htmlspecialchars($_POST['email']);
-    $password = $_POST['password'];
->>>>>>> 6719a4ad1a835aab6f7718fa6b07b2182aa258d5
 
-    $stmt = $pdo->prepare("SELECT id, nom FROM mail WHERE mail = ?");
+    $stmt = $pdo->prepare("SELECT * FROM clients WHERE mail = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-<<<<<<< HEAD
-    if ($user && password_verify($password, $user['nom'])) {
-=======
-    if ($user && password_verify($password, $user['password'])) {
->>>>>>> 6719a4ad1a835aab6f7718fa6b07b2182aa258d5
-        $_SESSION['user_id'] = $user['id'];
-        header('Location: contact.php');
+    if ($user) {
+        $_SESSION['user'] = [
+            'id' => $user['id'],
+            'nom' => $user['nom'],
+            'prenom' => $user['prenom'],
+            'mail' => $user['mail']
+        ];
+        header("Location: login.php");
         exit;
     } else {
-        $message = "❌ Email ou mot de passe incorrect.";
+        $message = "❌ Aucune inscription trouvée avec cet e-mail.";
     }
 }
 ?>
@@ -60,23 +64,28 @@ if (isset($_POST['login'])) {
         .container { max-width: 400px; margin: auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
         input, button { width: 100%; padding: 0.8rem; margin-bottom: 1rem; font-size: 1rem; }
         button { background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        .message { color: red; text-align: center; margin-bottom: 1rem; }
-        a { display: block; text-align: center; margin-top: 1rem; }
+        .message { text-align: center; margin-bottom: 1rem; font-weight: bold; color: red; }
+        a { display: block; text-align: center; margin-top: 1rem; color: #333; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Connexion</h2>
-    <?php if ($message): ?>
-        <div class="message"><?= $message ?></div>
+    <?php if (isset($_SESSION['user'])): ?>
+        <h2>Bienvenue, <?= htmlspecialchars($_SESSION['user']['prenom']) ?> <?= htmlspecialchars($_SESSION['user']['nom']) ?> !</h2>
+        <p>Email : <?= htmlspecialchars($_SESSION['user']['mail']) ?></p>
+        <a href="?logout">Se déconnecter</a>
+    <?php else: ?>
+        <h2>Connexion</h2>
+        <?php if ($message): ?>
+            <div class="message"><?= $message ?></div>
+        <?php endif; ?>
+        <form method="post">
+            <input type="email" name="email" placeholder="Adresse e-mail" required>
+            <button type="submit" name="login">Se connecter</button>
+        </form>
+        <a href="register.php">Pas encore inscrit ? Crée un compte</a>
     <?php endif; ?>
-    <form method="post">
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Mot de passe" required>
-        <button type="submit" name="login">Se connecter</button>
-    </form>
-    <a href="register.php">Pas encore de compte ? Inscrivez-vous</a>
 </div>
 
 </body>
