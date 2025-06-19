@@ -431,6 +431,21 @@ try {
                     <button type="submit" class="search-btn">Rechercher</button>
                 </form>
             </div>
+            <div class="add-restaurant-button-container" style="text-align:center; margin: 60px 0 20px 0;">
+    <a href="create_restaurant.php" class="btn-add-restaurant" style="
+        background-color: #ff6600;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 16px;
+        display: inline-block;
+    ">
+        Ajouter un restaurant
+    </a>
+</div>
+
         </div>
     </section>
     

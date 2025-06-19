@@ -28,7 +28,6 @@ $offset = ($page - 1) * $limite;
 
 $resultats = [];
 $total_resultats = 0;
-echo $recherche;
 if (!empty($recherche)) {
     try {
         // Requête de recherche adaptée à votre vraie structure de base de données
