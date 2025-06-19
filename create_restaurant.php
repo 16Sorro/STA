@@ -29,6 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (isset($_POST['supprimer'])) {
         $id_restaurant = $_POST['id_restaurant'] ?? '';
         if (is_numeric($id_restaurant)) {
+            $sql = "DELETE FROM avis WHERE avis.id_restaurant = :id_restaurant";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':id_restaurant' => $id_restaurant]);
             $stmt = $pdo->prepare("DELETE FROM restaurants WHERE id_restaurant = :id");
             $stmt->execute([':id' => $id_restaurant]);
             $message = "🗑️ Restaurant supprimé.";
