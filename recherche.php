@@ -768,4 +768,4 @@ $total_pages = ceil($total_resultats / $limite);
         });
     </script>
 </body>
-</html>rec
+</html>
